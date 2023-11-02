@@ -1,0 +1,1 @@
+Project to create functioning snake game using JavaScript, HTML and CSS
