@@ -1,21 +1,42 @@
 //assign canvas to variables
 const board = document.getElementById("gameCanvas");
-const board_ctx = board.getContext("2d");
+const boardCTX = board.getContext("2d");
+
+//assign colours
+const boardBackground = 'lightgrey';
+const boardBorder = 'black';
+const snakeColor = 'lightgreen';
+const snakeBorder = 'darkgreen';
 
 //create snake
-let snake = [ {x: 300, y: 300}, {x: 290, y: 300}, {x: 280, y: 300}, {x: 270, y: 300}, {x: 260, y: 200}];
+let snake = [ {x: 300, y: 300}, {x: 285, y: 300}, {x: 270, y: 300}, {x: 255, y: 300}, {x: 240, y: 300}];
 
 //function to draw each part of the snake
 function drawSnakeBlock(snakeBlock) {
-    board_ctx.fillStyle = 'lightgreen';
-    board_ctx.strokeStyle = 'green';
-    board_ctx.fillRect(snakeBlock.x, snakeBlock.y, 10, 10);
-    board_ctx.strokeRect(snakeBlock.x, snakeBlock.y, 10, 10);
+    boardCTX.fillStyle = snakeColor;
+    boardCTX.strokeStyle = snakeBorder;
+    boardCTX.fillRect(snakeBlock.x, snakeBlock.y, 15, 15);
+    boardCTX.strokeRect(snakeBlock.x, snakeBlock.y, 15, 15);
 };
 
+//function to draw whole snake
 function drawSnake() {
     snake.forEach(drawSnakeBlock);
-    console.log('draw snake run');
-}
+};
 
-drawSnake();
+//function to clear canvas
+function clearCanvas() {
+    boardCTX.fillStyle = boardBackground; 
+    boardCTX.strokeStyle = boardBorder;
+    boardCTX.fillRect(0, 0, board.width, board.height);
+    boardCTX.strokeRect(0, 0, board.width, board.height);
+};
+
+//this function will loop to keep game running
+function main() {
+    clearCanvas();
+    drawSnake();
+};
+
+//start game
+main();
