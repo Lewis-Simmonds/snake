@@ -3,11 +3,18 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: hidden;
+  display: none;
 }
 
 #score {
   font-size: 20px;
   text-align: center; 
   font-family: sans-serif;
+}
+
+#high-score {
+  font-size: 20px;
+  text-align: center; 
+  font-family: sans-serif;
+  display: none;
 }

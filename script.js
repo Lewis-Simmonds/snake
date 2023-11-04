@@ -1,5 +1,5 @@
 //assign canvas to variables
-const board = document.getElementById("gameCanvas");
+const board = document.getElementById("game-canvas");
 const boardCTX = board.getContext("2d");
 
 //assign colours
@@ -51,7 +51,7 @@ function moveSnake() {
 
     if (snake[0].x === foodX && snake[0].y === foodY) {
         score += 10;
-        document.getElementById('score').innerHTML = score;
+        document.getElementById('score').innerHTML = `Score: ${score}`;
         generateFood();
     } else {
         snake.pop();
@@ -139,7 +139,9 @@ function drawFood() {
 //this function will loop to keep game running
 function main() {
     if (endGame()) {
-        document.getElementById('score').innerHTML = `Game Over! Score: ${score}`;
+        document.getElementById('score').innerHTML = `Game Over!`;
+        document.getElementById('high-score').innerHTML = `High Score: ${score}`;
+        document.getElementById('high-score').style.display = 'block';
         document.addEventListener('keydown', startGame);
         snake = [ {x: 300, y: 300}, {x: 285, y: 300}, {x: 270, y: 300}, {x: 255, y: 300}, {x: 240, y: 300}];
         return;
@@ -161,6 +163,9 @@ function startGame(event) {
     if (event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40) {
         //add event listener for key press
         document.addEventListener('keydown', changeDirection);
+        score = 0;
+        document.getElementById('score').innerHTML = `Score: ${score}`;
+        document.getElementById('game-canvas').style.display = 'block';
         //generate first food
         generateFood();
         main();
