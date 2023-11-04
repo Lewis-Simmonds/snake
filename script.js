@@ -17,11 +17,13 @@ let score = 0;
 //create snake
 let snake = [ {x: 300, y: 300}, {x: 285, y: 300}, {x: 270, y: 300}, {x: 255, y: 300}, {x: 240, y: 300}];
 
-//initialise snake and food
+//initialise snake, food and game speed
 let dx = 15;
 let dy = 0;
 let foodX;
 let foodY;
+let speed = 100;
+let speedIncrease = false;
 
 //function to draw each part of the snake
 function drawSnakeBlock(snakeBlock) {
@@ -51,6 +53,9 @@ function moveSnake() {
 
     if (snake[0].x === foodX && snake[0].y === foodY) {
         score += 10;
+        if (score % 50 === 0) {
+            speedIncrease = true;
+        };
         document.getElementById('score').innerHTML = `Score: ${score}`;
         generateFood();
     } else {
@@ -148,13 +153,18 @@ function main() {
 
     changingDirection = false;
 
+    if (speedIncrease) {
+        speed = speed * 0.9;
+        speedIncrease = false;
+    }
+
     setTimeout(function onTick() {
         clearCanvas();
         drawFood();
         moveSnake();
         drawSnake();
         main();
-    }, 100);
+    }, speed);
 };
 
 //function to start game
@@ -164,6 +174,7 @@ function startGame(event) {
         score = 0;
         dx = 15;
         dy = 0;
+        speed = 100;
         snake = [ {x: 300, y: 300}, {x: 285, y: 300}, {x: 270, y: 300}, {x: 255, y: 300}, {x: 240, y: 300}];
         document.addEventListener('keydown', changeDirection);
         document.getElementById('score').innerHTML = `Score: ${score}`;
