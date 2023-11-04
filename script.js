@@ -7,8 +7,8 @@ const boardBackground = 'lightgrey';
 const boardBorder = 'black';
 const snakeColor = 'lightgreen';
 const snakeBorder = 'darkgreen';
-const foodColor = 'black';
-const foodBorder = 'black';
+const foodColor = 'lightblue';
+const foodBorder = 'darkblue';
 
 //assign vars to use in event loop
 let changingDirection = false;
