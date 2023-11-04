@@ -143,7 +143,6 @@ function main() {
         document.getElementById('high-score').innerHTML = `High Score: ${score}`;
         document.getElementById('high-score').style.display = 'block';
         document.addEventListener('keydown', startGame);
-        snake = [ {x: 300, y: 300}, {x: 285, y: 300}, {x: 270, y: 300}, {x: 255, y: 300}, {x: 240, y: 300}];
         return;
     };
 
@@ -161,12 +160,14 @@ function main() {
 //function to start game
 function startGame(event) {
     if (event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40) {
-        //add event listener for key press
-        document.addEventListener('keydown', changeDirection);
+        changingDirection = false;
         score = 0;
+        dx = 15;
+        dy = 0;
+        snake = [ {x: 300, y: 300}, {x: 285, y: 300}, {x: 270, y: 300}, {x: 255, y: 300}, {x: 240, y: 300}];
+        document.addEventListener('keydown', changeDirection);
         document.getElementById('score').innerHTML = `Score: ${score}`;
         document.getElementById('game-canvas').style.display = 'block';
-        //generate first food
         generateFood();
         main();
         document.removeEventListener('keydown', startGame);
