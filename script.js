@@ -11,6 +11,7 @@ const snakeBorder = 'darkgreen';
 //create snake
 let snake = [ {x: 300, y: 300}, {x: 285, y: 300}, {x: 270, y: 300}, {x: 255, y: 300}, {x: 240, y: 300}];
 
+//initialise snake moving right
 let dx = 15;
 let dy = 0;
 
@@ -41,6 +42,44 @@ function moveSnake() {
     snake.unshift(head);
     snake.pop();
 };
+
+//function to change snake direction
+function changeDirection(event) {
+    const leftKey = 37;
+    const rightKey = 39;
+    const upKey = 38;
+    const downKey = 40;
+
+    const keyPressed = event.keyCode;
+    const movingLeft = (dx === -15);
+    const movingRight = (dx === 15);
+    const movingUp = (dy === -15);
+    const movingDown = (dy === 15);
+
+    if (keyPressed === leftKey && !movingRight) {
+        dx = -15;
+        dy = 0;
+    };
+
+    if (keyPressed === rightKey && !movingLeft) {
+        dx = 15;
+        dy = 0;
+    };
+
+    if (keyPressed === upKey && !movingDown) {
+        dx = 0;
+        dy = -15;
+    };
+
+    if (keyPressed === downKey && !movingUp) {
+        dx = 0;
+        dy = 15;
+    };
+
+};
+
+//add event listener for key press
+document.addEventListener('keydown', changeDirection);
 
 //this function will loop to keep game running
 function main() {
