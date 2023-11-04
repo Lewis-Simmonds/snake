@@ -10,10 +10,14 @@ const snakeBorder = 'darkgreen';
 const foodColor = 'black';
 const foodBorder = 'black';
 
+//assign vars to use in event loop
+let changingDirection = false;
+let score = 0;
+
 //create snake
 let snake = [ {x: 300, y: 300}, {x: 285, y: 300}, {x: 270, y: 300}, {x: 255, y: 300}, {x: 240, y: 300}];
 
-//initialise snake moving right
+//initialise snake and food
 let dx = 15;
 let dy = 0;
 let foodX;
@@ -44,7 +48,14 @@ function clearCanvas() {
 function moveSnake() {
     const head = {x: snake[0].x + dx, y: snake[0].y + dy};
     snake.unshift(head);
-    snake.pop();
+
+    if (snake[0].x === foodX && snake[0].y === foodY) {
+        score += 10;
+        document.getElementById('score').innerHTML = score;
+        generateFood();
+    } else {
+        snake.pop();
+    };
 };
 
 //function to change snake direction
@@ -53,6 +64,9 @@ function changeDirection(event) {
     const rightKey = 39;
     const upKey = 38;
     const downKey = 40;
+
+    if (changingDirection) return;
+    changingDirection = true;
 
     const keyPressed = event.keyCode;
     const movingLeft = (dx === -15);
@@ -99,35 +113,31 @@ function endGame() {
 
 //function to generate random food location on canvas
 function randomFoodLocation(min, max) {
-    return Math.round((Math.random() * (max - min) + min) / 10) * 10;
+    return Math.round((Math.random() * (max - min) + min) / 15) * 15;
 };
 
 //function to add food randomly
 function generateFood() {
-    const foodX = randomFoodLocation(0, board.width - 15);
-    const foodY = randomFoodLocation(0, board.height - 15);
+    foodX = randomFoodLocation(0, board.width - 15);
+    foodY = randomFoodLocation(0, board.height - 15);
 
     snake.forEach(function hasSnakeEaten(part) {
-        if (part.x === foodX && part.y === foodY) generateFood();
+        if (part.x == foodX && part.y == foodY) generateFood();
     });
 };
 
 //function to draw food to canvas
 function drawFood() {
-    console.log(foodX);
-    console.log(foodY);
     boardCTX.fillStyle = foodColor;
     boardCTX.strokeStyle = foodBorder;
     boardCTX.fillRect(foodX, foodY, 15, 15);
     boardCTX.strokeRect(foodX, foodY, 15, 15);
-}
-
-//add event listener for key press
-document.addEventListener('keydown', changeDirection);
+};
 
 //this function will loop to keep game running
 function main() {
     if (endGame()) return;
+    changingDirection = false;
 
     setTimeout(function onTick() {
         clearCanvas();
@@ -138,7 +148,14 @@ function main() {
     }, 100);
 };
 
+//add event listener for key press
+document.addEventListener('keydown', changeDirection);
+
 //start game
 main();
 
+//generate first food
 generateFood();
+
+
+
