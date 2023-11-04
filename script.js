@@ -75,7 +75,21 @@ function changeDirection(event) {
         dx = 0;
         dy = 15;
     };
+};
 
+function endGame() {
+    for (let i = 4; i < snake.length; i++) {
+        if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
+            return true;
+        };
+    };
+
+    const leftWallHit = (snake[0].x < 0);
+    const rightWallHit = (snake[0].x > board.width - 10);
+    const topWallHit = (snake[0].y < 0); 
+    const bottomWallHit = (snake[0].y > board.height - 10);
+
+    return leftWallHit || rightWallHit || topWallHit || bottomWallHit;
 };
 
 //add event listener for key press
@@ -83,6 +97,8 @@ document.addEventListener('keydown', changeDirection);
 
 //this function will loop to keep game running
 function main() {
+    if (endGame()) return;
+    
     setTimeout(function onTick() {
         clearCanvas();
         moveSnake();
