@@ -108,7 +108,9 @@ function endGame() {
     const topWallHit = (snake[0].y < 0); 
     const bottomWallHit = (snake[0].y > board.height - 15);
 
-    return leftWallHit || rightWallHit || topWallHit || bottomWallHit;
+    if (leftWallHit || rightWallHit || topWallHit || bottomWallHit) {
+        return true;
+    };
 };
 
 //function to generate random food location on canvas
@@ -136,7 +138,13 @@ function drawFood() {
 
 //this function will loop to keep game running
 function main() {
-    if (endGame()) return;
+    if (endGame()) {
+        document.getElementById('score').innerHTML = `Game Over! Score: ${score}`;
+        document.addEventListener('keydown', startGame);
+        snake = [ {x: 300, y: 300}, {x: 285, y: 300}, {x: 270, y: 300}, {x: 255, y: 300}, {x: 240, y: 300}];
+        return;
+    };
+
     changingDirection = false;
 
     setTimeout(function onTick() {
@@ -148,14 +156,24 @@ function main() {
     }, 100);
 };
 
-//add event listener for key press
-document.addEventListener('keydown', changeDirection);
+//function to start game
+function startGame(event) {
+    if (event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40) {
+        //add event listener for key press
+        document.addEventListener('keydown', changeDirection);
+        //generate first food
+        generateFood();
+        main();
+        document.removeEventListener('keydown', startGame);
+    };
+};
 
-//start game
-main();
+//add event listener to start game
+document.addEventListener('keydown', startGame);
 
-//generate first food
-generateFood();
+
+
+
 
 
 
